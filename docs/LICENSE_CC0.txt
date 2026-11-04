@@ -1,0 +1,4 @@
+Temporal Fractions original code, Android resources, build scripts and project documentation are released under CC0 1.0 Universal.
+To the extent possible under law, the author has waived all copyright and related or neighboring rights to the original materials.
+Full CC0 legal text: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+This dedication does not cover WavPack, Kotlin's standard library, or other third-party materials.

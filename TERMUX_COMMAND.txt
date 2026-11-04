@@ -1,0 +1,1 @@
+bash -c 'set -Eeuo pipefail; ZIP="/storage/emulated/0/Documents/zip/TemporalFractions_v20261104T215458Z.zip"; [[ -f "$ZIP" ]] || ZIP="/storage/emulated/0/Download/TemporalFractions_v20261104T215458Z.zip"; [[ -f "$ZIP" ]] || { echo "ZIP missing: $ZIP" >&2; exit 1; }; unzip -p "$ZIP" "TemporalFractions_v20261104T215458Z/run_v20261104T215458Z.sh" | bash -s -- "$ZIP"'

@@ -1,0 +1,5 @@
+Temporal Fractions third-party dependencies
+WavPack 5.8.1, pinned source 4827b98, BSD-3-Clause, copyright David Bryant and contributors. Complete upstream license in assets/wavpack_license.txt. Source: https://github.com/dbry/WavPack
+Kotlin standard library, Apache License 2.0, copyright JetBrains s.r.o. and contributors. License: https://www.apache.org/licenses/LICENSE-2.0 and https://github.com/JetBrains/kotlin/blob/master/license/LICENSE.txt
+Android system API libraries are supplied by the operating system. Android SDK, Kotlin compiler, Termux build utilities, Clang and their dependencies are build-time tools governed by their own licenses.
+Original Temporal Fractions application code and documentation are dedicated to CC0-1.0 Universal. No original project code is made derivative of the WavPack BSD license.
