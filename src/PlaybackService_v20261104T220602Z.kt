@@ -10,7 +10,7 @@ import android.os.*
 import java.io.IOException
 import java.util.Locale
 class PlaybackService:Service() {
-companion object {const val SOURCE_ID="PlaybackService_v20261104T215458Z";const val CHANNEL="temporal_playback";@Volatile var playing=false;@Volatile var nowPlaying=""}
+companion object {const val SOURCE_ID="PlaybackService_v20261104T220602Z";const val CHANNEL="temporal_playback";@Volatile var playing=false;@Volatile var nowPlaying=""}
 private val main=Handler(Looper.getMainLooper())
 private var player:MediaPlayer?=null
 private var wavpack:WavPackStreamer?=null
@@ -32,7 +32,7 @@ val token=generation
 val stop=Intent(this,PlaybackService::class.java).setAction("STOP").setData(Uri.parse("temporalstop://$token")).putExtra("token",token)
 val pi=PendingIntent.getService(this,0,stop,PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 val open=PendingIntent.getActivity(this,0,Intent(this,MainActivity::class.java),PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-return Notification.Builder(this,CHANNEL).setSmallIcon(android.R.drawable.ic_lock_idle_alarm).setContentTitle("Temporal Fractions").setContentText(text).setOngoing(true).setContentIntent(open).addAction(Notification.Action.Builder(Icon.createWithResource(this,android.R.drawable.ic_media_pause),"Stop",pi).build()).setStyle(Notification.MediaStyle().setMediaSession(session!!.sessionToken).setShowActionsInCompactView(0)).build()
+return Notification.Builder(this,CHANNEL).setSmallIcon(android.R.drawable.ic_lock_idle_alarm).setColor(android.graphics.Color.RED).setContentTitle("Temporal Fractions").setContentText(text).setOngoing(true).setContentIntent(open).addAction(Notification.Action.Builder(Icon.createWithResource(this,android.R.drawable.ic_media_pause),"Stop",pi).build()).setStyle(Notification.MediaStyle().setMediaSession(session!!.sessionToken).setShowActionsInCompactView(0)).build()
 }
 private fun status(text:String){if(currentRun>0)TimerStore(this).use {it.updateRun(currentRun,if(text=="Playing")"playing" else "blocked",text)}}
 private fun playbackState(on:Boolean){session?.setPlaybackState(PlaybackState.Builder().setActions(PlaybackState.ACTION_STOP or PlaybackState.ACTION_PAUSE).setState(if(on)PlaybackState.STATE_PLAYING else PlaybackState.STATE_STOPPED,PlaybackState.PLAYBACK_POSITION_UNKNOWN,if(on)1f else 0f).build())}
@@ -99,7 +99,7 @@ playbackState(false)
 val intentionallyBlocked=reason.startsWith("Audio blocked")
 val playbackFailed=reason.startsWith("Playback error")||reason.startsWith("Media error")||reason.startsWith("Native decoder")
 if(prior>0){val state=when {reason=="Completed"->"completed";reason=="Stopped"->"stopped";intentionallyBlocked->"blocked";playbackFailed->"failed";else->"interrupted"};TimerStore(this).use {it.updateRun(prior,state,reason)}}
-if(terminate){stopForeground(STOP_FOREGROUND_REMOVE);stopSelf();if(prior>0&&(intentionallyBlocked||playbackFailed)){val heading=if(intentionallyBlocked)"Timer audio blocked" else "Timer audio failed";val notice=Notification.Builder(this,CHANNEL).setSmallIcon(android.R.drawable.ic_lock_idle_alarm).setContentTitle(heading).setContentText("$previousName · $reason").setAutoCancel(true).build();(getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(8320,notice)}}
+if(terminate){stopForeground(STOP_FOREGROUND_REMOVE);stopSelf();if(prior>0&&(intentionallyBlocked||playbackFailed)){val heading=if(intentionallyBlocked)"Timer audio blocked" else "Timer audio failed";val notice=Notification.Builder(this,CHANNEL).setSmallIcon(android.R.drawable.ic_lock_idle_alarm).setColor(android.graphics.Color.RED).setContentTitle(heading).setContentText("$previousName · $reason").setAutoCancel(true).build();(getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(8320,notice)}}
 }
 private fun finish(reason:String){release(reason,true)}
 override fun onDestroy(){release("Service destroyed",false);session?.release();session=null;super.onDestroy()}

@@ -1,6 +1,6 @@
 # Temporal Fractions
 ## Native Kotlin Android application — Design specification v0.3
-**Document ID:** `Temporal_Fractions_Design_v20261104T215458Z`  
+**Document ID:** `Temporal_Fractions_Design_v20261104T220602Z`  
 **Supersedes:** `Temporal_Fractions_Design_v20261104T174921Z`  
 **Proposed application ID:** `cc0.temporalfractions.a0he7vjet48`  
 **Status:** Implementation underway; first APK built and installed, revised interface awaiting device verification.  

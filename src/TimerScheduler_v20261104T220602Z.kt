@@ -9,7 +9,7 @@ import android.os.SystemClock
 import android.provider.Settings
 import android.util.Log
 object TimerScheduler {
-const val SOURCE_ID="TimerScheduler_v20261104T215458Z"
+const val SOURCE_ID="TimerScheduler_v20261104T220602Z"
 const val ACTION_FIRE="cc0.temporalfractions.a0he7vjet48.FIRE"
 fun bootCount(c:Context):Int=try{Settings.Global.getInt(c.contentResolver,"boot_count",-1)}catch(_:Exception){-1}
 private fun manager(c:Context)=c.getSystemService(Context.ALARM_SERVICE) as AlarmManager

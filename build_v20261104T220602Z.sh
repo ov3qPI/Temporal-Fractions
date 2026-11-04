@@ -1,6 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 set -Eeuo pipefail
-SCRIPT_ID='TemporalFractions_build_v20261104T215458Z'
+SCRIPT_ID='TemporalFractions_build_v20261104T220602Z'
 PROJECT="${1:?Provide extracted project directory}"
 BASE='/storage/emulated/0'
 STATE="$HOME/.temporal_fractions_build"
@@ -13,7 +13,7 @@ JAR="${ANDROID_JAR:-}"
 WORK=''
 fail(){ printf 'BUILD FAILED: %s\n' "$*" >&2;exit 1; }
 for exe in aapt2 kotlinc java javac jar curl apksigner keytool zip unzip clang git sha256sum find tee;do command -v "$exe" >/dev/null 2>&1 || fail "Missing $exe; install: pkg install kotlin openjdk-21 aapt2 curl apksigner clang git zip unzip coreutils";done
-[[ -f "$PROJECT/AndroidManifest.xml" && -f "$PROJECT/native/WavPackBridge_v20261104T215458Z.c" ]] || fail "Incomplete source ZIP: $PROJECT"
+[[ -f "$PROJECT/AndroidManifest.xml" && -f "$PROJECT/native/WavPackBridge_v20261104T220602Z.c" ]] || fail "Incomplete source ZIP: $PROJECT"
 if [[ -z "$JAR" ]];then JAR="$(find "$SDK/platforms" -mindepth 2 -maxdepth 2 -name android.jar -type f 2>/dev/null | sort -V | tail -n 1 || true)";fi
 [[ -f "$JAR" ]] || fail "Missing Android platform android.jar; set ANDROID_JAR or install Android SDK android-35"
 JAVA_BIN="$(readlink -f "$(command -v javac)")"
@@ -34,9 +34,7 @@ WLICENSE="$VENDOR/license.txt"
 [[ -f "$WLICENSE" ]] || WLICENSE="$VENDOR/LICENSE"
 [[ -f "$WLICENSE" ]] || fail 'WavPack BSD license missing'
 mkdir -p "$WORK/classes" "$WORK/dex" "$WORK/compiled" "$WORK/res" "$WORK/lib/arm64-v8a" "$WORK/assets"
-cp "$PROJECT/res/drawable/ic_launcher.xml" "$WORK/res/ic_launcher.xml"
-mkdir -p "$WORK/res/drawable"
-mv "$WORK/res/ic_launcher.xml" "$WORK/res/drawable/ic_launcher.xml"
+cp -R "$PROJECT/res/." "$WORK/res/"
 NATIVE_SRCS=(common_utils decorr_utils entropy_utils extra1 extra2 open_utils open_filename open_legacy open_raw pack pack_dns pack_floats pack_utils read_words tags tag_utils unpack unpack_floats unpack_seek unpack_utils write_words)
 NATIVE_FILES=()
 for item in "${NATIVE_SRCS[@]}";do [[ -f "$VENDOR/src/$item.c" ]] || fail "Missing WavPack native source $item.c";NATIVE_FILES+=("$VENDOR/src/$item.c");done
@@ -44,10 +42,10 @@ JANSI_DIR="${PREFIX:-/data/data/com.termux/files/usr}/lib/jansi"
 KOTLINC=(kotlinc)
 if [[ -f "$JANSI_DIR/libjansi.so" ]];then KOTLINC+=("-J-Dlibrary.jansi.path=$JANSI_DIR");printf 'Using Termux native Jansi: %s\n' "$JANSI_DIR/libjansi.so";else printf 'Optional native Jansi unavailable; Kotlin may show a harmless warning\n';fi
 printf 'Checking fixed-duration mathematics\n'
-"${KOTLINC[@]}" "$PROJECT/src/TimeMath_v20261104T215458Z.kt" "$PROJECT/tests/FractionMathTest_v20261104T215458Z.kt" -include-runtime -d "$WORK/math-test.jar"
+"${KOTLINC[@]}" "$PROJECT/src/TimeMath_v20261104T220602Z.kt" "$PROJECT/tests/FractionMathTest_v20261104T220602Z.kt" -include-runtime -d "$WORK/math-test.jar"
 java -cp "$WORK/math-test.jar" cc0.temporalfractions.a0he7vjet48.FractionMathTest
 printf 'Building WavPack native decoder for Android ARM64\n'
-clang --target=aarch64-linux-android31 -std=c11 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -DHAVE___BUILTIN_CLZ=1 -O2 -fPIC -fvisibility=hidden -ffunction-sections -fdata-sections -shared -Wl,--gc-sections -Wl,--no-undefined -I"$VENDOR/include" -I"$VENDOR/src" -I"$JDK/include" -I"$JDK/include/linux" "$PROJECT/native/WavPackBridge_v20261104T215458Z.c" "${NATIVE_FILES[@]}" -lm -o "$WORK/lib/arm64-v8a/libtemporalwavpack.so"
+clang --target=aarch64-linux-android31 -std=c11 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -DHAVE___BUILTIN_CLZ=1 -O2 -fPIC -fvisibility=hidden -ffunction-sections -fdata-sections -shared -Wl,--gc-sections -Wl,--no-undefined -I"$VENDOR/include" -I"$VENDOR/src" -I"$JDK/include" -I"$JDK/include/linux" "$PROJECT/native/WavPackBridge_v20261104T220602Z.c" "${NATIVE_FILES[@]}" -lm -o "$WORK/lib/arm64-v8a/libtemporalwavpack.so"
 [[ -s "$WORK/lib/arm64-v8a/libtemporalwavpack.so" ]] || fail 'Native .so missing'
 printf 'Compiling Java JNI declarations\n'
 javac --release 11 -encoding UTF-8 -classpath "$JAR" -d "$WORK/classes" "$PROJECT/src/WavPackNative.java"

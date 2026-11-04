@@ -5,7 +5,7 @@ import android.media.AudioManager
 import android.media.AudioAttributes
 import android.os.Build
 object OutputRouteGuard {
-const val SOURCE_ID="OutputRouteGuard_v20261104T215458Z"
+const val SOURCE_ID="OutputRouteGuard_v20261104T220602Z"
 fun enabled(c:Context)=c.getSharedPreferences("settings",0).getBoolean("external_only",false)
 fun setEnabled(c:Context,on:Boolean){c.getSharedPreferences("settings",0).edit().putBoolean("external_only",on).apply()}
 fun allowed(d:AudioDeviceInfo):Boolean=when(d.type){AudioDeviceInfo.TYPE_WIRED_HEADSET,AudioDeviceInfo.TYPE_WIRED_HEADPHONES,AudioDeviceInfo.TYPE_USB_HEADSET,AudioDeviceInfo.TYPE_USB_DEVICE,AudioDeviceInfo.TYPE_USB_ACCESSORY,AudioDeviceInfo.TYPE_BLUETOOTH_A2DP,AudioDeviceInfo.TYPE_BLUETOOTH_SCO,AudioDeviceInfo.TYPE_BLE_HEADSET,AudioDeviceInfo.TYPE_BLE_SPEAKER,AudioDeviceInfo.TYPE_BLE_BROADCAST,AudioDeviceInfo.TYPE_HEARING_AID->true;else->false}

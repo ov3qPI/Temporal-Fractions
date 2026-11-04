@@ -10,7 +10,7 @@
 #include "wavpack.h"
 #define FRAMES 4096
 #define CHANNELS 2
-static const char SOURCE_ID[] __attribute__((used))="WavPackBridge_v20261104T215458Z";
+static const char SOURCE_ID[] __attribute__((used))="WavPackBridge_v20261104T220602Z";
 typedef struct {int fd;int64_t pos;int64_t length;WavpackContext *ctx;int channels;int bits;int mode;int errors;} Decoder;
 static void error(JNIEnv *env,const char *msg){jclass cls=(*env)->FindClass(env,"java/io/IOException");if(cls)(*env)->ThrowNew(env,cls,msg);}
 static int32_t cb_read(void *id,void *dst,int32_t amount){Decoder *d=(Decoder*)id;if(amount<0)return 0;ssize_t n=pread(d->fd,dst,(size_t)amount,(off_t)d->pos);if(n>0){d->pos+=n;return (int32_t)n;}return 0;}
