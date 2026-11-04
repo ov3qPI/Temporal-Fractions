@@ -10,7 +10,7 @@ import android.os.*
 import java.io.IOException
 import java.util.Locale
 class PlaybackService:Service() {
-companion object {const val SOURCE_ID="PlaybackService_v20261104T220602Z";const val CHANNEL="temporal_playback";@Volatile var playing=false;@Volatile var nowPlaying=""}
+companion object {const val SOURCE_ID="PlaybackService_v20261104T222055Z";const val CHANNEL="temporal_playback";@Volatile var playing=false;@Volatile var nowPlaying=""}
 private val main=Handler(Looper.getMainLooper())
 private var player:MediaPlayer?=null
 private var wavpack:WavPackStreamer?=null

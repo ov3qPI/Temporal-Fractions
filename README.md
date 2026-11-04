@@ -11,11 +11,11 @@ A native, offline Android countdown timer based on precise subdivisions of fixed
 - User-selected audio: Android-supported media, WAV, and WavPack (`.wv`) through a native JNI decoder.
 - Connected Audio Only: restricts playback to eligible wired, USB, or Bluetooth audio outputs, with fail-closed routing checks.
 - Audio test and diagnostic reporting built into the application.
-- Pure black and pure red interface across the editor, ruler, controls, icons, and app dialogs.
+- Pure black and pure red interface across the editor, ruler, controls, icons, and custom app dialogs. Selected indicators are outlined, never solid red.
 
 ## Tested status
 
-The November 4, 2026 device tests confirmed app startup, timer expiration, playback through Bluetooth earbuds, blocking playback without eligible earbuds, and stopping playback when the earbuds disconnected mid-session. The last on-device playback-tested source version is `20261104T213805Z`. The palette revision `20261104T220602Z` uses pure black (`#000000`) and pure red (`#FF0000`) throughout the app and has not yet been independently runtime-tested. WavPack, USB, analog routing, long-form playback, reboot restoration, and background behavior require further device testing.
+The November 4, 2026 device tests confirmed app startup, timer expiration, playback through Bluetooth earbuds, blocking playback without eligible earbuds, and stopping playback when the earbuds disconnected mid-session. The last on-device playback-tested source version is `20261104T213805Z`. The latest locally packaged palette revision `20261104T222055Z` corrects filled indicators and replaces gray native dialogs with black/red custom dialogs. It is not yet independently runtime-tested or published to GitHub; the prior black/red palette revision is `20261104T220602Z`. WavPack, USB, analog routing, long-form playback, reboot restoration, and background behavior require further device testing.
 
 ## Termux build
 
@@ -24,14 +24,14 @@ The source tree is a direct build project, not a Gradle project. Android 12+ and
 Install build tools as required by your Termux setup. From the repository root, invoke:
 
 ```bash
-bash build_v20261104T220602Z.sh "$PWD"
+bash build_v20261104T222055Z.sh "$PWD"
 ```
 
 The build uses `kotlinc`, `javac`, `clang`, `aapt2`, Google's standalone D8/R8 `9.1.29`, and `apksigner`. On its first execution it fetches pinned WavPack 5.8.1 sources and D8; subsequent builds reuse caches. It creates a signed APK in `/storage/emulated/0/Documents/apk/`, logs in `/storage/emulated/0/Documents/log/`, and a hash record in `/storage/emulated/0/Documents/txt/`. APK installation opens automatically when `termux-open` is available.
 
 The signing key and password are generated locally under Termux's private `$HOME/.temporal_fractions_build` directory; **back them up securely and never commit or share them**. The published source repository contains no signing credentials or binaries.
 
-Alternatively, use the separately distributed versioned ZIP with its `run_v20261104T220602Z.sh` helper for quiet full-output logging and automatic extraction cleanup. That helper expects the original versioned ZIP layout and should not be run against a Git checkout directly.
+Alternatively, use the separately distributed versioned ZIP with its `run_v20261104T222055Z.sh` helper for quiet full-output logging and automatic extraction cleanup. That helper expects the original versioned ZIP layout and should not be run against a Git checkout directly.
 
 ## Project layout
 
@@ -40,8 +40,8 @@ Alternatively, use the separately distributed versioned ZIP with its `run_v20261
 - `res/`, `AndroidManifest.xml` — Android resources and platform declarations.
 - `tests/` — fixed-duration mathematics tests.
 - `docs/` — original design, app dedication, third-party notices, and build notes.
-- `build_v20261104T220602Z.sh` — complete no-Gradle Termux build.
-- `diagnose_v20261104T220602Z.sh` — optional ADB runtime crash diagnostics.
+- `build_v20261104T222055Z.sh` — complete no-Gradle Termux build.
+- `diagnose_v20261104T222055Z.sh` — optional ADB runtime crash diagnostics.
 - `publish_v20261104T220019Z.sh` — one-time GitHub repository creation helper for Termux.
 
 ## Licensing

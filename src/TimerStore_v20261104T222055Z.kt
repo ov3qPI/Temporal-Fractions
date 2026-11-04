@@ -8,7 +8,7 @@ import java.util.Locale
 data class Preset(val id:Long,val name:String,val period:Int,val radix:Int,val level:Int,val uri:String,val file:String)
 data class TimerRun(val id:Long,val presetId:Long,val name:String,val period:Int,val radix:Int,val level:Int,val durationNs:Long,val uri:String,val file:String,val startWall:Long,val startElapsed:Long,val deadlineWall:Long,val deadlineElapsed:Long,val bootCount:Int,val generation:Long,val state:String,val detail:String)
 class TimerStore(ctx:Context):SQLiteOpenHelper(ctx,"temporal_fractions.sqlite",null,1) {
-companion object {const val SOURCE_ID="TimerStore_v20261104T220602Z"}
+companion object {const val SOURCE_ID="TimerStore_v20261104T222055Z"}
 override fun onCreate(db:SQLiteDatabase){db.execSQL("CREATE TABLE presets(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,period INTEGER NOT NULL,radix INTEGER NOT NULL,level INTEGER NOT NULL,uri TEXT NOT NULL,file TEXT NOT NULL)");db.execSQL("CREATE TABLE runs(id INTEGER PRIMARY KEY AUTOINCREMENT,preset_id INTEGER NOT NULL,name TEXT NOT NULL,period INTEGER NOT NULL,radix INTEGER NOT NULL,level INTEGER NOT NULL,duration_ns INTEGER NOT NULL,uri TEXT NOT NULL,file TEXT NOT NULL,start_wall INTEGER NOT NULL,start_elapsed INTEGER NOT NULL,deadline_wall INTEGER NOT NULL,deadline_elapsed INTEGER NOT NULL,boot_count INTEGER NOT NULL,generation INTEGER NOT NULL DEFAULT 1,state TEXT NOT NULL,detail TEXT NOT NULL DEFAULT '')")}
 override fun onUpgrade(db:SQLiteDatabase,old:Int,now:Int){throw IllegalStateException("No migrations from $old to $now")}
 private fun Cursor.preset()=Preset(getLong(0),getString(1),getInt(2),getInt(3),getInt(4),getString(5),getString(6))

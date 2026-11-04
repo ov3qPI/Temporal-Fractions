@@ -3,7 +3,7 @@ import java.math.BigInteger
 import java.math.RoundingMode
 import java.util.Locale
 object TimeMath {
-const val SOURCE_ID="TimeMath_v20261104T220602Z"
+const val SOURCE_ID="TimeMath_v20261104T222055Z"
 val names=arrayOf("Day","Mean synodic month","December-solstice year")
 val nanos=arrayOf("86400000000000","2551442876907840","31556972778336000").map { BigInteger(it) }
 fun denominator(radix:Int,level:Int):BigInteger=BigInteger.valueOf(radix.toLong()).pow(level)

@@ -9,7 +9,7 @@ import android.os.SystemClock
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
 class WavPackStreamer(private val context:Context,private val uri:String,private val restricted:Boolean,private val started:(AudioTrack)->Unit,private val finished:(String)->Unit){
-companion object {const val SOURCE_ID="WavPackStreamer_v20261104T220602Z"}
+companion object {const val SOURCE_ID="WavPackStreamer_v20261104T222055Z"}
 private val stopping=AtomicBoolean(false)
 private val authorized=AtomicBoolean(!restricted)
 fun authorize(){authorized.set(true)}

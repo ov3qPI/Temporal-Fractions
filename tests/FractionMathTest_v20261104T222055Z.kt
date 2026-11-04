@@ -1,6 +1,6 @@
 package cc0.temporalfractions.a0he7vjet48
 object FractionMathTest {
-const val SOURCE_ID="FractionMathTest_v20261104T220602Z"
+const val SOURCE_ID="FractionMathTest_v20261104T222055Z"
 @JvmStatic fun main(args:Array<String>){
 check(TimeMath.durationNs(0,2,0)==86400000000000L)
 check(TimeMath.durationNs(1,2,0)==2551442876907840L)
