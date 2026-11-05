@@ -1,9 +1,12 @@
 package cc0.temporalfractions.a0he7vjet48
 import java.math.BigInteger
 import java.math.RoundingMode
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 object TimeMath {
-const val SOURCE_ID="TimeMath_v20261104T222055Z"
+const val SOURCE_ID="TimeMath_v20261105T175418Z"
 val names=arrayOf("Day","Mean synodic month","December-solstice year")
 val nanos=arrayOf("86400000000000","2551442876907840","31556972778336000").map { BigInteger(it) }
 fun denominator(radix:Int,level:Int):BigInteger=BigInteger.valueOf(radix.toLong()).pow(level)
@@ -23,4 +26,5 @@ return "$whole${decimal}s"
 }
 fun fraction(radix:Int,level:Int):String=if(level==0)"1" else "1/${denominator(radix,level)}"
 fun parse(period:Int,radix:Int,level:Int):String="${names[period]} · ${fraction(radix,level)} · ${durationLabel(durationNs(period,radix,level))}"
+fun fireTimestamp(deadlineWall:Long,zone:ZoneId=ZoneId.systemDefault(),locale:Locale=Locale.getDefault()):Pair<String,String>{val at=Instant.ofEpochMilli(deadlineWall).atZone(zone);return DateTimeFormatter.ofPattern("EEE, MMM d, yyyy",locale).format(at) to DateTimeFormatter.ofPattern("HH:mm:ss.SSS z (XXX)",locale).format(at)}
 }
