@@ -7,10 +7,10 @@ A native, offline Android countdown timer based on precise subdivisions of fixed
 - Day: 86,400 seconds; mean synodic month: 29.5305888531 days; December-solstice year: 365.24274049 days.
 - Dyadic (`1/2ⁿ`) and triadic (`1/3ⁿ`) subdivisions with a scrollable fraction ruler.
 - Countdown timers begin immediately when started; they do not synchronize to an astronomical event or cycle boundary.
-- Exact Android alarm scheduling, reboot restoration, saved presets, and timer history.
+- Exact Android alarm scheduling, reboot restoration, saved presets, and persistent run records.
 - User-selected audio: Android-supported media, WAV, and WavPack (`.wv`) through a native JNI decoder.
-- Connected Audio Only: restricts playback to eligible wired, USB, or Bluetooth audio outputs, with fail-closed routing checks.
-- Audio test and diagnostic reporting built into the application.
+- Connected Audio Only: long-press the red headphones icon on Home to toggle restricted playback to eligible wired, USB, or Bluetooth audio outputs, with fail-closed routing checks. A normal tap displays the gesture hint.
+- Audio test and a dedicated Home-screen Diagnostics button with copyable timer and audio routing information.
 - Pure black and pure red interface across the editor, ruler, controls, icons, and custom app dialogs. Selected indicators are outlined, never solid red.
 
 ## Tested status

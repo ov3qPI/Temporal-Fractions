@@ -8,7 +8,7 @@ import java.util.Locale
 data class Preset(val id:Long,val name:String,val period:Int,val radix:Int,val level:Int,val uri:String,val file:String)
 data class TimerRun(val id:Long,val presetId:Long,val name:String,val period:Int,val radix:Int,val level:Int,val durationNs:Long,val uri:String,val file:String,val startWall:Long,val startElapsed:Long,val deadlineWall:Long,val deadlineElapsed:Long,val bootCount:Int,val generation:Long,val state:String,val detail:String)
 class TimerStore(ctx:Context):SQLiteOpenHelper(ctx,"temporal_fractions.sqlite",null,1) {
-companion object {const val SOURCE_ID="TimerStore_v20261104T222055Z"}
+companion object {const val SOURCE_ID="TimerStore_v20261105T192530Z"}
 override fun onCreate(db:SQLiteDatabase){db.execSQL("CREATE TABLE presets(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,period INTEGER NOT NULL,radix INTEGER NOT NULL,level INTEGER NOT NULL,uri TEXT NOT NULL,file TEXT NOT NULL)");db.execSQL("CREATE TABLE runs(id INTEGER PRIMARY KEY AUTOINCREMENT,preset_id INTEGER NOT NULL,name TEXT NOT NULL,period INTEGER NOT NULL,radix INTEGER NOT NULL,level INTEGER NOT NULL,duration_ns INTEGER NOT NULL,uri TEXT NOT NULL,file TEXT NOT NULL,start_wall INTEGER NOT NULL,start_elapsed INTEGER NOT NULL,deadline_wall INTEGER NOT NULL,deadline_elapsed INTEGER NOT NULL,boot_count INTEGER NOT NULL,generation INTEGER NOT NULL DEFAULT 1,state TEXT NOT NULL,detail TEXT NOT NULL DEFAULT '')")}
 override fun onUpgrade(db:SQLiteDatabase,old:Int,now:Int){throw IllegalStateException("No migrations from $old to $now")}
 private fun Cursor.preset()=Preset(getLong(0),getString(1),getInt(2),getInt(3),getInt(4),getString(5),getString(6))
@@ -18,7 +18,6 @@ fun presets(longest:Boolean):List<Preset>{val result=mutableListOf<Preset>();rea
 fun preset(id:Long):Preset?=readableDatabase.rawQuery("SELECT id,name,period,radix,level,uri,file FROM presets WHERE id=?",arrayOf(id.toString())).use { if(it.moveToFirst())it.preset() else null }
 fun savePreset(p:Preset):Long {val v=ContentValues().apply {put("name",p.name);put("period",p.period);put("radix",p.radix);put("level",p.level);put("uri",p.uri);put("file",p.file)};return if(p.id>0){writableDatabase.update("presets",v,"id=?",arrayOf(p.id.toString()));p.id}else writableDatabase.insertOrThrow("presets",null,v)}
 fun deletePreset(id:Long){writableDatabase.delete("presets","id=?",arrayOf(id.toString()))}
-fun runs():List<TimerRun>{val result=mutableListOf<TimerRun>();readableDatabase.rawQuery("SELECT $runColumns FROM runs ORDER BY id DESC LIMIT 300",null).use {while(it.moveToNext())result.add(it.run())};return result}
 fun activeRuns():List<TimerRun>{val result=mutableListOf<TimerRun>();readableDatabase.rawQuery("SELECT $runColumns FROM runs WHERE state='armed' ORDER BY deadline_wall",null).use {while(it.moveToNext())result.add(it.run())};return result}
 fun getRun(id:Long):TimerRun?=readableDatabase.rawQuery("SELECT $runColumns FROM runs WHERE id=?",arrayOf(id.toString())).use {if(it.moveToFirst())it.run() else null}
 fun createRun(p:Preset,wall:Long,elapsed:Long,boot:Int):TimerRun {
